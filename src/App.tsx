@@ -1,8 +1,8 @@
 import './App.css';
-import DemoSketch from './pages/Demo/Demo';
+import { Rain } from './pages/Rain';
 
 function App() {
-    return <DemoSketch />;
+    return <Rain />;
 }
 
 export default App;
