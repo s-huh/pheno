@@ -15,6 +15,8 @@ function rainSketch(p5: P5CanvasInstance) {
     p5.draw = () => {
         p5.background(0);
 
+        p5.rect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
         const newDropsCount = p5.int(p5.random(0, 2));
 
         for (let i = 0; i <= newDropsCount; i++) {
@@ -43,5 +45,10 @@ function rainSketch(p5: P5CanvasInstance) {
 }
 
 export function Rain() {
-    return <ReactP5Wrapper sketch={rainSketch} />;
+    return (
+        <>
+            <p>Hover mouse over canvas or tap around for mobile</p>
+            <ReactP5Wrapper sketch={rainSketch} />
+        </>
+    );
 }
