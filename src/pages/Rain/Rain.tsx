@@ -8,7 +8,7 @@ function rainSketch(p5: P5CanvasInstance) {
     let dropsArray: Array<{ raindrop: IRaindrop; isAlive: boolean }>;
 
     p5.setup = () => {
-        p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT, p5.WEBGL);
+        p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         dropsArray = [];
     };
 

@@ -9,8 +9,7 @@ const FRAMES_TO_LIVE_MAX = 50;
 
 export interface IRaindrop {
     p5: P5CanvasInstance;
-    x: number;
-    y: number;
+    spawnPos: { x: number; y: number };
     strokeValue: number;
     lineWeight: number;
     framesLived: number;
@@ -19,7 +18,7 @@ export interface IRaindrop {
     ringSpawnFrames: number[];
     ringsRadii: number[];
     draw: () => void;
-    seedSpawnPos: (limit: number, mousePos: number) => number;
+    seedSpawnPos: (limit: number, mousePos: number) => { x: number; y: number };
     seedRingSpawnFrames: () => number[];
     decay: () => void;
     getIsAlive: () => boolean;
@@ -27,8 +26,7 @@ export interface IRaindrop {
 
 export class Raindrop implements IRaindrop {
     p5: P5CanvasInstance;
-    x: number;
-    y: number;
+    spawnPos: { x: number; y: number };
     strokeValue: number;
     lineWeight: number;
     framesLived: number;
@@ -39,8 +37,7 @@ export class Raindrop implements IRaindrop {
 
     constructor(p5: P5CanvasInstance) {
         this.p5 = p5;
-        this.x = this.seedSpawnPos(p5.width, p5.mouseX);
-        this.y = this.seedSpawnPos(p5.height, p5.mouseY);
+        this.spawnPos = this.seedSpawnPos();
         this.strokeValue = 255;
         this.lineWeight = 1;
         this.framesLived = 0;
@@ -56,23 +53,34 @@ export class Raindrop implements IRaindrop {
 
     draw() {
         this.ringsRadii = this.ringsRadii.map((radius, i) => {
+            const { x, y } = this.spawnPos;
+
             if (this.p5.frameCount >= this.ringSpawnFrames[i]) {
                 this.p5.noFill();
                 this.p5.stroke(this.strokeValue);
-                this.p5.ellipse(this.x, this.y, radius);
+                this.p5.ellipse(x, y, radius);
                 this.p5.strokeWeight(this.lineWeight);
                 return radius + RADIAL_VELOCITY;
             }
             return 0;
         });
-
-        console.log('mouse x', this.p5.mouseX);
     }
 
-    seedSpawnPos(limit: number, mousePos: number): number {
-        return mousePos === 0
-            ? this.p5.random(0, limit)
-            : this.p5.randomGaussian(mousePos, MOUSE_POS_STDEV);
+    seedSpawnPos(): { x: number; y: number } {
+        const { mouseX, mouseY, width, height } = this.p5;
+
+        const isXOutOfRange = mouseX < 0 || mouseX >= width;
+        const isYOutOfRange = mouseY < 0 || mouseY >= height;
+
+        return isXOutOfRange || isYOutOfRange
+            ? {
+                  x: this.p5.random(0, width),
+                  y: this.p5.random(0, height),
+              }
+            : {
+                  x: this.p5.randomGaussian(mouseX, MOUSE_POS_STDEV),
+                  y: this.p5.randomGaussian(mouseY, MOUSE_POS_STDEV),
+              };
     }
 
     seedRingSpawnFrames() {
