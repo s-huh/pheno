@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;900&family=Ubuntu&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
