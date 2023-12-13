@@ -44,7 +44,7 @@ function rainSketch(p5: P5CanvasInstance) {
     };
 }
 
-export function Rain() {
+export default function Rain() {
     return (
         <>
             <p>Hover mouse over canvas or tap around for mobile</p>
