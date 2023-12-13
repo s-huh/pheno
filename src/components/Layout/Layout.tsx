@@ -7,7 +7,7 @@ type Props = {
 
 export function Layout({ children }: Readonly<Props>) {
     return (
-        <div id="layout">
+        <div id="layout" className="p-8">
             <Navbar />
             {children}
         </div>

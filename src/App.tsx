@@ -1,11 +1,18 @@
 import './App.css';
 import { Layout } from './components/Layout';
-import { Rain } from './pages/Rain';
+import RainPage from './pages/Rain/Rain';
+import AboutPage from './pages/About/About';
+import { Route } from 'wouter';
 
 function App() {
     return (
         <Layout>
-            <Rain />
+            <Route path="/">
+                <RainPage />
+            </Route>
+            <Route path="/about">
+                <AboutPage />
+            </Route>
         </Layout>
     );
 }
