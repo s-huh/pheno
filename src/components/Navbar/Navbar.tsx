@@ -2,7 +2,10 @@ import { Link } from 'wouter';
 import { NavLink } from '../NavLink/NavLink';
 import { NavLinkProps } from '../NavLink/NavLink';
 
-const navLinks: NavLinkProps[] = [{ href: '/about', text: 'About' }];
+const navLinks: NavLinkProps[] = [
+    { href: '/sandbox', text: 'Sandbox' },
+    { href: '/about', text: 'About' },
+];
 
 export function Navbar() {
     return (
@@ -19,9 +22,15 @@ export function Navbar() {
                         Pheno +++
                     </span>
                 </Link>
-                {navLinks.map(({ href, text }, i) => (
-                    <NavLink key={`nav-link-${i}`} href={href} text={text} />
-                ))}
+                <div className="flex space-x-8">
+                    {navLinks.map(({ href, text }, i) => (
+                        <NavLink
+                            key={`nav-link-${i}`}
+                            href={href}
+                            text={text}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );
