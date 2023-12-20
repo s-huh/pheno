@@ -3,6 +3,7 @@ import { NavLink } from '../NavLink/NavLink';
 import { NavLinkProps } from '../NavLink/NavLink';
 
 const navLinks: NavLinkProps[] = [
+    { href: '/darwin', text: 'Darwin' },
     { href: '/sandbox', text: 'Sandbox' },
     { href: '/about', text: 'About' },
 ];
