@@ -12,7 +12,7 @@ function darwinSketch(p5: P5CanvasInstance) {
     };
 
     p5.draw = () => {
-        p5.background(0);
+        p5.fill(255);
         p5.rect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         organism.explore();
     };
