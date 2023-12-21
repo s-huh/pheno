@@ -7,6 +7,11 @@ const CANVAS_HEIGHT = 700;
 function darwinSketch(p5: P5CanvasInstance) {
     const organism = new Organism(p5, 350, 350);
 
+    const resources = [
+        { x: 300, y: 300, value: 10 },
+        { x: 500, y: 500, value: 15 },
+    ];
+
     p5.setup = () => {
         p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     };
@@ -14,7 +19,13 @@ function darwinSketch(p5: P5CanvasInstance) {
     p5.draw = () => {
         p5.fill(255);
         p5.rect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
         organism.explore();
+        organism.forage(resources);
+
+        resources.forEach(({ x, y, value }) => {
+            p5.ellipse(x, y, value);
+        });
     };
 }
 

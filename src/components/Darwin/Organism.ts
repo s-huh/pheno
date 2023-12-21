@@ -21,7 +21,7 @@ export class Organism {
         this.rateOfDecay = 0.05;
         this.posX = posX;
         this.posY = posY;
-        this.visualRadius = 30;
+        this.visualRadius = 50;
         this.visualSpanAngle = Math.PI * 0.05;
         this.orientationAngle = Math.PI * 0.25;
         this.travelSpeed = 1;
@@ -34,15 +34,26 @@ export class Organism {
         );
         this.posX += this.travelSpeed * Math.sin(this.orientationAngle);
         this.posY += this.travelSpeed * Math.cos(this.orientationAngle);
-        this.p5.ellipse(this.posX, this.posY, 5);
 
         this.loseHealth();
         this.drawVisualField();
         this.drawHealthbar();
+
+        this.p5.ellipse(this.posX, this.posY, 5);
     }
 
     loseHealth() {
         this.health = Math.max(this.health - this.rateOfDecay, 0);
+    }
+
+    forage(resources: Array<{ x: number; y: number; value: number }>) {
+        resources.forEach(({ x, y, value }) => {
+            const dist = this.p5.dist(this.posX, this.posY, x, y);
+
+            if (dist <= this.visualRadius) {
+                this.health = Math.min(this.health + value, 100);
+            }
+        });
     }
 
     drawVisualField() {
@@ -54,6 +65,11 @@ export class Organism {
         const x2 = this.posX + resolvedOffsetX;
         const y2 = this.posY + resolvedOffsetY;
 
+        this.p5.noStroke();
+        this.p5.fill(222);
+        this.p5.ellipse(this.posX, this.posY, this.visualRadius * 2);
+
+        this.p5.stroke(1);
         this.p5.line(this.posX, this.posY, x2, y2);
     }
 
