@@ -5,13 +5,16 @@ const CANVAS_WIDTH = 700;
 const CANVAS_HEIGHT = 700;
 
 function darwinSketch(p5: P5CanvasInstance) {
-    const organism = new Organism(p5, 350, 350);
+    const pos = p5.createVector(600, 350);
+    const vel = p5.createVector(0, 2);
+    const organism = new Organism(p5, pos, vel);
 
     const resources = [
         { x: 300, y: 300, value: 10 },
         { x: 500, y: 500, value: 15 },
     ];
 
+    // p5.frameRate(3);
     p5.setup = () => {
         p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     };
