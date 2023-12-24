@@ -1,27 +1,42 @@
 import { P5CanvasInstance } from '@p5-wrapper/react';
 import { Vector } from 'p5';
+import { IOrganism } from './types/interfaces';
 
 const healthbarWidth = 40;
 const healthbarHeight = 5;
 const healthbarOffset = 20;
 
-export class Organism {
+export class Organism implements IOrganism {
     p5: P5CanvasInstance;
+    canvasW: number;
+    canvasH: number;
+    id: string;
     health: number;
     rateOfDecay: number;
     pos: Vector;
     vel: Vector;
     visualRadius: number;
+    feedingRadius: number;
     turnSpanAngle: number;
     travelSpeed: number;
 
-    constructor(p5: P5CanvasInstance, pos: Vector, vel: Vector) {
+    constructor(
+        p5: P5CanvasInstance,
+        canvasW: number,
+        canvasH: number,
+        pos: Vector,
+        vel: Vector,
+    ) {
         this.p5 = p5;
+        this.canvasW = canvasW;
+        this.canvasH = canvasH;
+        this.id = self.crypto.randomUUID();
         this.health = 100;
         this.rateOfDecay = 0.05;
         this.pos = pos;
         this.vel = vel;
         this.visualRadius = 50;
+        this.feedingRadius = 40;
         this.turnSpanAngle = Math.PI * 0.05;
         this.travelSpeed = 2;
     }
@@ -31,12 +46,12 @@ export class Organism {
         const yAxis = this.p5.createVector(0, 1);
 
         if (
-            this.pos.x + this.visualRadius > 700 ||
+            this.pos.x + this.visualRadius > this.canvasW ||
             this.pos.x - this.visualRadius < 0
         ) {
             this.vel.reflect(xAxis);
         } else if (
-            this.pos.y + this.visualRadius > 700 ||
+            this.pos.y + this.visualRadius > this.canvasH ||
             this.pos.y - this.visualRadius < 0
         ) {
             this.vel.reflect(yAxis);
@@ -58,14 +73,8 @@ export class Organism {
         this.health = Math.max(this.health - this.rateOfDecay, 0);
     }
 
-    forage(resources: Array<{ x: number; y: number; value: number }>) {
-        resources.forEach(({ x, y, value }) => {
-            const dist = this.p5.dist(this.pos.x, this.pos.y, x, y);
-
-            if (dist <= this.visualRadius) {
-                this.health = Math.min(this.health + value, 100);
-            }
-        });
+    feed(value: number) {
+        this.health = Math.min(this.health + value, 100);
     }
 
     drawVisualField() {
