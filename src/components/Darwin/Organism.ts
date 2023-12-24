@@ -78,15 +78,14 @@ export class Organism implements IOrganism {
     }
 
     drawVisualField() {
-        this.p5.noStroke();
-        this.p5.fill(222);
+        this.p5.stroke(120);
         this.p5.ellipse(this.pos.x, this.pos.y, this.visualRadius * 2);
 
-        this.p5.stroke(1);
         const posCopy = this.pos.copy();
         const velCopy = this.vel.copy();
         const endpoint = posCopy.add(velCopy.setMag(this.visualRadius));
         this.p5.line(this.pos.x, this.pos.y, endpoint.x, endpoint.y);
+        this.p5.stroke(225);
     }
 
     drawHealthbar() {
@@ -94,12 +93,13 @@ export class Organism implements IOrganism {
         const rectY = this.pos.y - healthbarOffset;
         this.p5.rect(rectX, rectY, healthbarWidth, healthbarHeight);
 
-        this.p5.fill(51);
+        this.p5.fill(225);
         this.p5.rect(
             rectX,
             rectY,
             healthbarWidth * (this.health / 100),
             healthbarHeight,
         );
+        this.p5.noFill();
     }
 }

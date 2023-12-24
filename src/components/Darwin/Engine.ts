@@ -65,7 +65,8 @@ export class Engine {
                     organism.pos.y,
                 );
 
-                const isFeeder = distance <= organism.feedingRadius;
+                const isFeeder =
+                    distance <= organism.feedingRadius + resource.value;
 
                 return {
                     organism,

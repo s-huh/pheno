@@ -7,8 +7,8 @@ const CANVAS_HEIGHT = 500;
 function darwinSketch(p5: P5CanvasInstance) {
     const engine = new Engine(p5, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    engine.seedOrganisms(2);
-    engine.seedResources(3);
+    engine.seedOrganisms(4);
+    engine.seedResources(5);
 
     // p5.frameRate(3);
     p5.setup = () => {
@@ -16,7 +16,7 @@ function darwinSketch(p5: P5CanvasInstance) {
     };
 
     p5.draw = () => {
-        p5.fill(255);
+        p5.fill(0);
         p5.rect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
         engine.organisms.forEach((organism) => {
