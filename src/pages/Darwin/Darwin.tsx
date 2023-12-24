@@ -1,8 +1,8 @@
 import { P5CanvasInstance, ReactP5Wrapper } from '@p5-wrapper/react';
 import { Engine } from '../../components/Darwin/Engine';
 
-const CANVAS_WIDTH = 700;
-const CANVAS_HEIGHT = 700;
+const CANVAS_WIDTH = 1200;
+const CANVAS_HEIGHT = 500;
 
 function darwinSketch(p5: P5CanvasInstance) {
     const engine = new Engine(p5, CANVAS_WIDTH, CANVAS_HEIGHT);
