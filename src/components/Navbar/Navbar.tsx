@@ -3,6 +3,7 @@ import { NavLink } from '../NavLink/NavLink';
 import { NavLinkProps } from '../NavLink/NavLink';
 
 const navLinks: NavLinkProps[] = [
+    { href: '/darwin', text: 'Darwin' },
     { href: '/sandbox', text: 'Sandbox' },
     { href: '/about', text: 'About' },
 ];
@@ -19,7 +20,7 @@ export function Navbar() {
                         id="nav-title"
                         className="text-white font-firaSans font-black text-3xl cursor-pointer mr-96"
                     >
-                        Pheno +++
+                        Pheno
                     </span>
                 </Link>
                 <div className="flex space-x-8">
