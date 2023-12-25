@@ -35,17 +35,29 @@ export class Engine {
         }
     }
 
+    addResource() {
+        const pos = this.generatePosWithMargin(100);
+        const resource = new Resource(this.p5, pos, 30);
+        this.resources.push(resource);
+    }
+
     seedResources(seedCount: number) {
         for (let i = 0; i < seedCount; i++) {
-            const pos = this.generatePosWithMargin(100);
-            const resource = new Resource(this.p5, pos, 30);
-            this.resources.push(resource);
+            this.addResource();
+        }
+    }
+
+    regenResources(pRegen: number, resourceCap: number) {
+        const p = this.p5.random();
+        if (p < pRegen && this.resources.length < resourceCap) {
+            this.addResource();
         }
     }
 
     runLifecycle() {
         this.consume();
         this.cleanUpDeadOrganisms();
+        this.regenResources(0.005, 8);
     }
 
     generatePosWithMargin(margin: number) {
