@@ -1,8 +1,8 @@
 import { Traits } from '../types/interfaces';
 
 export const MEAN_TRAITS: Traits = {
-    healthCapacity: 10000,
-    reproductiveAge: 120,
+    healthCapacity: 8000,
+    reproductiveAge: 5000,
     visualRadius: 40,
     turnSpanAngle: Math.PI * 0.05,
     travelSpeed: 1,

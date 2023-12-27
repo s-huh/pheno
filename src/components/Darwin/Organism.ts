@@ -60,7 +60,7 @@ export class Organism implements IOrganism {
 
         this.pos.add(this.vel.setMag(this.traits.travelSpeed));
 
-        this.loseHealth();
+        this.decay();
         this.drawVisualField();
         this.drawHealthbar();
 
@@ -71,7 +71,8 @@ export class Organism implements IOrganism {
         this.health = Math.min(this.health + value, this.traits.healthCapacity);
     }
 
-    private loseHealth() {
+    private decay() {
+        this.age += 1;
         this.health = Math.max(this.health - 1, 0);
     }
 
