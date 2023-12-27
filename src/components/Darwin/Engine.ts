@@ -80,7 +80,7 @@ export class Engine {
                 );
 
                 const isFeeder =
-                    distance <= organism.traits.feedingRadius + resource.radius;
+                    distance <= organism.traits.visualRadius + resource.radius;
 
                 return {
                     organism,
