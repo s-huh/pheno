@@ -4,7 +4,6 @@ export const MEAN_TRAITS: Traits = {
     healthCapacity: 10000,
     reproductiveAge: 120,
     visualRadius: 40,
-    feedingRadius: 30,
     turnSpanAngle: Math.PI * 0.05,
     travelSpeed: 1,
 };

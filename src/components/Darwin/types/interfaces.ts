@@ -5,7 +5,6 @@ export type Traits = {
     healthCapacity: number;
     reproductiveAge: number;
     visualRadius: number;
-    feedingRadius: number;
     turnSpanAngle: number;
     travelSpeed: number;
 };

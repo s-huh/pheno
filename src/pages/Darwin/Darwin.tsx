@@ -26,7 +26,7 @@ function darwinSketch(p5: P5CanvasInstance) {
         engine.runLifecycle();
 
         engine.resources.forEach((resource) => {
-            p5.ellipse(resource.pos.x, resource.pos.y, resource.radius);
+            p5.ellipse(resource.pos.x, resource.pos.y, resource.radius * 2);
         });
     };
 }
