@@ -1,8 +1,9 @@
 import { P5CanvasInstance } from '@p5-wrapper/react';
 import { Organism } from './Organism';
-import { IOrganism } from './types/interfaces';
+import { IOrganism, Traits } from './types/interfaces';
 import { Resource } from './Resource';
 import { IResource } from './types/interfaces';
+import { MEAN_TRAITS, TRAITS_STDEV_POPULATION } from './constants.ts/traits';
 
 export class Engine {
     p5: P5CanvasInstance;
@@ -36,6 +37,7 @@ export class Engine {
                 this.canvasH,
                 pos,
                 vel,
+                this.mutateTraits(MEAN_TRAITS, TRAITS_STDEV_POPULATION),
             );
             this.organisms.push(organism);
         }
@@ -49,7 +51,7 @@ export class Engine {
 
     private addResource() {
         const pos = this.generatePosWithMargin(100);
-        const resource = new Resource(this.p5, pos, 30);
+        const resource = new Resource(this.p5, pos, 300);
         this.resources.push(resource);
     }
 
@@ -78,7 +80,7 @@ export class Engine {
                 );
 
                 const isFeeder =
-                    distance <= organism.feedingRadius + resource.value;
+                    distance <= organism.traits.feedingRadius + resource.radius;
 
                 return {
                     organism,
@@ -104,5 +106,18 @@ export class Engine {
         this.organisms = this.organisms.filter((organism) => {
             return organism.health > 0;
         });
+    }
+
+    private mutateTraits(traits: Traits, stdev: number): Traits {
+        const mutation = {} as Traits;
+
+        for (const [key, value] of Object.entries(traits)) {
+            mutation[key as keyof Traits] = Math.max(
+                this.p5.randomGaussian(value, value * stdev),
+                0,
+            );
+        }
+
+        return mutation;
     }
 }
