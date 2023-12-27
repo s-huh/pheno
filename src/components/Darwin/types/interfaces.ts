@@ -15,10 +15,7 @@ export interface IOrganism {
     turnSpanAngle: number;
     travelSpeed: number;
     explore: () => void;
-    loseHealth: () => void;
     feed: (value: number) => void;
-    drawVisualField: () => void;
-    drawHealthbar: () => void;
 }
 
 export interface IResource {

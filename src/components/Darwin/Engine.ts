@@ -19,6 +19,12 @@ export class Engine {
         this.resources = [];
     }
 
+    runLifecycle() {
+        this.consume();
+        this.cleanUpDeadOrganisms();
+        this.regenResources(0.005, 8);
+    }
+
     seedOrganisms(seedCount: number) {
         for (let i = 0; i < seedCount; i++) {
             const pos = this.generatePosWithMargin(100);
@@ -35,39 +41,33 @@ export class Engine {
         }
     }
 
-    addResource() {
-        const pos = this.generatePosWithMargin(100);
-        const resource = new Resource(this.p5, pos, 30);
-        this.resources.push(resource);
-    }
-
     seedResources(seedCount: number) {
         for (let i = 0; i < seedCount; i++) {
             this.addResource();
         }
     }
 
-    regenResources(pRegen: number, resourceCap: number) {
+    private addResource() {
+        const pos = this.generatePosWithMargin(100);
+        const resource = new Resource(this.p5, pos, 30);
+        this.resources.push(resource);
+    }
+
+    private regenResources(pRegen: number, resourceCap: number) {
         const p = this.p5.random();
         if (p < pRegen && this.resources.length < resourceCap) {
             this.addResource();
         }
     }
 
-    runLifecycle() {
-        this.consume();
-        this.cleanUpDeadOrganisms();
-        this.regenResources(0.005, 8);
-    }
-
-    generatePosWithMargin(margin: number) {
+    private generatePosWithMargin(margin: number) {
         return this.p5.createVector(
             this.p5.random(0 + margin, this.canvasW - margin),
             this.p5.random(0 + margin, this.canvasH - margin),
         );
     }
 
-    consume() {
+    private consume() {
         for (const resource of this.resources) {
             const distances = this.organisms.map((organism) => {
                 const distance = this.p5.dist(
@@ -100,7 +100,7 @@ export class Engine {
         }
     }
 
-    cleanUpDeadOrganisms() {
+    private cleanUpDeadOrganisms() {
         this.organisms = this.organisms.filter((organism) => {
             return organism.health > 0;
         });
