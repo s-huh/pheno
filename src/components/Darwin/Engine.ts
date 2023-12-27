@@ -26,6 +26,7 @@ export class Engine {
 
     runLifecycle() {
         this.consume();
+        this.incurToxicDamage();
         this.cleanUpDeadOrganisms();
         this.regenResources(0.005, 8);
         this.reproduce();
@@ -35,6 +36,7 @@ export class Engine {
         for (let i = 0; i < seedCount; i++) {
             const pos = this.generatePosWithMargin(100);
             const vel = this.p5.createVector(0, 2);
+            const geneticId = self.crypto.randomUUID();
 
             const organism = new Organism(
                 this.p5,
@@ -43,6 +45,7 @@ export class Engine {
                 pos,
                 vel,
                 this.mutateTraits(MEAN_TRAITS, TRAITS_STDEV_POPULATION),
+                geneticId,
             );
             this.organisms.push(organism);
         }
@@ -133,6 +136,7 @@ export class Engine {
 
                 const pos = parent.pos.copy();
                 const vel = parent.vel.copy().rotate(Math.PI);
+                const geneticId = parent.geneticId;
 
                 const child = new Organism(
                     this.p5,
@@ -141,9 +145,28 @@ export class Engine {
                     pos,
                     vel,
                     this.mutateTraits(parent.traits, TRAITS_STDEV_PROGENY),
+                    geneticId,
                 );
                 this.organisms.push(child);
             }
+        });
+    }
+
+    private incurToxicDamage() {
+        this.organisms.forEach((target, i) => {
+            this.organisms.forEach((emitter, j) => {
+                const isSelf = i === j;
+                const isFamily = target.geneticId === emitter.geneticId;
+
+                if (!isSelf && !isFamily) {
+                    const dist = target.pos.dist(emitter.pos);
+                    if (dist <= emitter.traits.toxicRadius) {
+                        target.health -=
+                            emitter.traits.toxicity *
+                            (1 - target.traits.immunity);
+                    }
+                }
+            });
         });
     }
 }

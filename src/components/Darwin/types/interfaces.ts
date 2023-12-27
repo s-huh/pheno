@@ -7,12 +7,16 @@ export type Traits = {
     visualRadius: number;
     turnSpanAngle: number;
     travelSpeed: number;
+    toxicity: number;
+    toxicRadius: number;
+    immunity: number;
 };
 
 export interface IOrganism {
     p5: P5CanvasInstance;
     canvasW: number;
     canvasH: number;
+    geneticId: string;
     id: string;
     pos: Vector;
     vel: Vector;

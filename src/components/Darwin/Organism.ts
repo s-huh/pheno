@@ -10,6 +10,7 @@ export class Organism implements IOrganism {
     p5: P5CanvasInstance;
     canvasW: number;
     canvasH: number;
+    geneticId: string;
     id: string;
     pos: Vector;
     vel: Vector;
@@ -24,10 +25,12 @@ export class Organism implements IOrganism {
         pos: Vector,
         vel: Vector,
         traits: Traits,
+        geneticId: string,
     ) {
         this.p5 = p5;
         this.canvasW = canvasW;
         this.canvasH = canvasH;
+        this.geneticId = geneticId;
         this.id = self.crypto.randomUUID();
         this.pos = pos;
         this.vel = vel;
@@ -77,7 +80,10 @@ export class Organism implements IOrganism {
     }
 
     private drawVisualField() {
-        this.p5.stroke(80);
+        this.p5.stroke(70);
+        this.p5.ellipse(this.pos.x, this.pos.y, this.traits.toxicRadius * 2);
+
+        this.p5.stroke(100);
         this.p5.ellipse(this.pos.x, this.pos.y, this.traits.visualRadius * 2);
 
         const posCopy = this.pos.copy();
