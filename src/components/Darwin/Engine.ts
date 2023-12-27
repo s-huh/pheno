@@ -3,7 +3,11 @@ import { Organism } from './Organism';
 import { IOrganism, Traits } from './types/interfaces';
 import { Resource } from './Resource';
 import { IResource } from './types/interfaces';
-import { MEAN_TRAITS, TRAITS_STDEV_POPULATION } from './constants.ts/traits';
+import {
+    MEAN_TRAITS,
+    TRAITS_STDEV_POPULATION,
+    TRAITS_STDEV_PROGENY,
+} from './constants.ts/traits';
 
 export class Engine {
     p5: P5CanvasInstance;
@@ -24,6 +28,7 @@ export class Engine {
         this.consume();
         this.cleanUpDeadOrganisms();
         this.regenResources(0.005, 8);
+        this.reproduce();
     }
 
     seedOrganisms(seedCount: number) {
@@ -119,5 +124,26 @@ export class Engine {
         }
 
         return mutation;
+    }
+
+    private reproduce() {
+        this.organisms.forEach((parent) => {
+            if (parent.age === Math.round(parent.traits.reproductiveAge)) {
+                parent.health *= 0.5;
+
+                const pos = parent.pos.copy();
+                const vel = parent.vel.copy().rotate(Math.PI);
+
+                const child = new Organism(
+                    this.p5,
+                    this.canvasW,
+                    this.canvasH,
+                    pos,
+                    vel,
+                    this.mutateTraits(parent.traits, TRAITS_STDEV_PROGENY),
+                );
+                this.organisms.push(child);
+            }
+        });
     }
 }
