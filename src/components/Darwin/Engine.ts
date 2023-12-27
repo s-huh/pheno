@@ -8,6 +8,7 @@ import {
     TRAITS_STDEV_POPULATION,
     TRAITS_STDEV_PROGENY,
 } from './constants.ts/traits';
+import { Color } from 'p5';
 
 export class Engine {
     p5: P5CanvasInstance;
@@ -37,6 +38,7 @@ export class Engine {
             const pos = this.generatePosWithMargin(100);
             const vel = this.p5.createVector(0, 2);
             const geneticId = self.crypto.randomUUID();
+            const colour = this.getRandomColour();
 
             const organism = new Organism(
                 this.p5,
@@ -46,6 +48,7 @@ export class Engine {
                 vel,
                 this.mutateTraits(MEAN_TRAITS, TRAITS_STDEV_POPULATION),
                 geneticId,
+                colour,
             );
             this.organisms.push(organism);
         }
@@ -137,6 +140,7 @@ export class Engine {
                 const pos = parent.pos.copy();
                 const vel = parent.vel.copy().rotate(Math.PI);
                 const geneticId = parent.geneticId;
+                const colour = parent.colour;
 
                 const child = new Organism(
                     this.p5,
@@ -146,6 +150,7 @@ export class Engine {
                     vel,
                     this.mutateTraits(parent.traits, TRAITS_STDEV_PROGENY),
                     geneticId,
+                    colour,
                 );
                 this.organisms.push(child);
             }
@@ -168,5 +173,13 @@ export class Engine {
                 }
             });
         });
+    }
+
+    private getRandomColour(): Color {
+        return this.p5.color(
+            Math.round(this.p5.random(255)),
+            Math.round(this.p5.random(255)),
+            Math.round(this.p5.random(255)),
+        );
     }
 }

@@ -1,5 +1,5 @@
 import { P5CanvasInstance } from '@p5-wrapper/react';
-import { Vector } from 'p5';
+import { Vector, Color } from 'p5';
 
 export type Traits = {
     healthCapacity: number;
@@ -23,6 +23,7 @@ export interface IOrganism {
     health: number;
     age: number;
     traits: Traits;
+    colour: Color;
     explore: () => void;
     feed: (value: number) => void;
 }

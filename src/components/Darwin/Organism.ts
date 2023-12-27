@@ -1,5 +1,5 @@
 import { P5CanvasInstance } from '@p5-wrapper/react';
-import { Vector } from 'p5';
+import { Color, Vector } from 'p5';
 import { IOrganism, Traits } from './types/interfaces';
 
 const healthbarWidth = 40;
@@ -17,6 +17,7 @@ export class Organism implements IOrganism {
     health: number;
     age: number;
     traits: Traits;
+    colour: Color;
 
     constructor(
         p5: P5CanvasInstance,
@@ -26,6 +27,7 @@ export class Organism implements IOrganism {
         vel: Vector,
         traits: Traits,
         geneticId: string,
+        colour: Color,
     ) {
         this.p5 = p5;
         this.canvasW = canvasW;
@@ -37,6 +39,7 @@ export class Organism implements IOrganism {
         this.health = traits.healthCapacity;
         this.age = 0;
         this.traits = traits;
+        this.colour = colour;
     }
 
     explore() {
@@ -67,7 +70,9 @@ export class Organism implements IOrganism {
         this.drawVisualField();
         this.drawHealthbar();
 
+        this.p5.stroke(this.colour);
         this.p5.ellipse(this.pos.x, this.pos.y, 5);
+        this.p5.stroke(255);
     }
 
     feed(value: number) {
@@ -80,11 +85,12 @@ export class Organism implements IOrganism {
     }
 
     private drawVisualField() {
-        this.p5.stroke(70);
+        this.p5.stroke(this.colour);
         this.p5.ellipse(this.pos.x, this.pos.y, this.traits.toxicRadius * 2);
 
-        this.p5.stroke(100);
+        this.p5.strokeWeight(2);
         this.p5.ellipse(this.pos.x, this.pos.y, this.traits.visualRadius * 2);
+        this.p5.strokeWeight(1);
 
         const posCopy = this.pos.copy();
         const velCopy = this.vel.copy();
@@ -97,15 +103,18 @@ export class Organism implements IOrganism {
     private drawHealthbar() {
         const rectX = this.pos.x - healthbarWidth / 2;
         const rectY = this.pos.y - healthbarOffset;
+        this.p5.stroke(this.colour);
         this.p5.rect(rectX, rectY, healthbarWidth, healthbarHeight);
 
-        this.p5.fill(225);
+        this.p5.fill(this.colour);
         this.p5.rect(
             rectX,
             rectY,
             healthbarWidth * (this.health / this.traits.healthCapacity),
             healthbarHeight,
         );
+
+        this.p5.stroke(255);
         this.p5.noFill();
     }
 }
