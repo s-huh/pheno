@@ -69,15 +69,15 @@ export class Organism implements IOrganism {
         this.p5.ellipse(this.pos.x, this.pos.y, 5);
     }
 
-    loseHealth() {
-        this.health = Math.max(this.health - this.rateOfDecay, 0);
-    }
-
     feed(value: number) {
         this.health = Math.min(this.health + value, 100);
     }
 
-    drawVisualField() {
+    private loseHealth() {
+        this.health = Math.max(this.health - this.rateOfDecay, 0);
+    }
+
+    private drawVisualField() {
         this.p5.stroke(120);
         this.p5.ellipse(this.pos.x, this.pos.y, this.visualRadius * 2);
 
@@ -88,7 +88,7 @@ export class Organism implements IOrganism {
         this.p5.stroke(225);
     }
 
-    drawHealthbar() {
+    private drawHealthbar() {
         const rectX = this.pos.x - healthbarWidth / 2;
         const rectY = this.pos.y - healthbarOffset;
         this.p5.rect(rectX, rectY, healthbarWidth, healthbarHeight);
