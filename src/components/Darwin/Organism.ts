@@ -25,6 +25,7 @@ export class Organism implements IOrganism {
         canvasH: number,
         pos: Vector,
         vel: Vector,
+        health: number,
         traits: Traits,
         geneticId: string,
         colour: Color,
@@ -36,7 +37,7 @@ export class Organism implements IOrganism {
         this.id = self.crypto.randomUUID();
         this.pos = pos;
         this.vel = vel;
-        this.health = traits.healthCapacity;
+        this.health = health;
         this.age = 0;
         this.traits = traits;
         this.colour = colour;

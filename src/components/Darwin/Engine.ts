@@ -5,6 +5,7 @@ import { Resource } from './Resource';
 import { IResource } from './types/interfaces';
 import {
     MEAN_TRAITS,
+    REPRODUCTIVE_PENALTY,
     TRAITS_STDEV_POPULATION,
     TRAITS_STDEV_PROGENY,
 } from './constants.ts/traits';
@@ -37,6 +38,10 @@ export class Engine {
         for (let i = 0; i < seedCount; i++) {
             const pos = this.generatePosWithMargin(100);
             const vel = this.p5.createVector(0, 2);
+            const mutatedTraits = this.mutateTraits(
+                MEAN_TRAITS,
+                TRAITS_STDEV_POPULATION,
+            );
             const geneticId = self.crypto.randomUUID();
             const colour = this.getRandomColour();
 
@@ -46,7 +51,8 @@ export class Engine {
                 this.canvasH,
                 pos,
                 vel,
-                this.mutateTraits(MEAN_TRAITS, TRAITS_STDEV_POPULATION),
+                mutatedTraits.healthCapacity,
+                mutatedTraits,
                 geneticId,
                 colour,
             );
@@ -62,7 +68,7 @@ export class Engine {
 
     private addResource() {
         const pos = this.generatePosWithMargin(100);
-        const resource = new Resource(this.p5, pos, 300);
+        const resource = new Resource(this.p5, pos, 3000);
         this.resources.push(resource);
     }
 
@@ -134,21 +140,31 @@ export class Engine {
 
     private reproduce() {
         this.organisms.forEach((parent) => {
-            if (parent.age === Math.round(parent.traits.reproductiveAge)) {
-                parent.health *= 0.5;
+            const likelyToReproduce =
+                Math.random() <= parent.traits.pReproduction;
+            const isOfAge =
+                parent.age >= Math.round(parent.traits.reproductiveAge);
+            const isHealthy = parent.health >= parent.traits.reproductiveHealth;
+            const mutatedTraits = this.mutateTraits(
+                parent.traits,
+                TRAITS_STDEV_PROGENY,
+            );
+
+            if (likelyToReproduce && isOfAge && isHealthy) {
+                parent.health *= REPRODUCTIVE_PENALTY;
 
                 const pos = parent.pos.copy();
                 const vel = parent.vel.copy().rotate(Math.PI);
                 const geneticId = parent.geneticId;
                 const colour = parent.colour;
-
                 const child = new Organism(
                     this.p5,
                     this.canvasW,
                     this.canvasH,
                     pos,
                     vel,
-                    this.mutateTraits(parent.traits, TRAITS_STDEV_PROGENY),
+                    mutatedTraits.healthCapacity * REPRODUCTIVE_PENALTY,
+                    mutatedTraits,
                     geneticId,
                     colour,
                 );
