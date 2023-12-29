@@ -4,6 +4,8 @@ import { Vector, Color } from 'p5';
 export type Traits = {
     healthCapacity: number;
     reproductiveAge: number;
+    reproductiveHealth: number;
+    pReproduction: number;
     visualRadius: number;
     turnSpanAngle: number;
     travelSpeed: number;

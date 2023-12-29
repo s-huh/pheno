@@ -14,6 +14,6 @@ export class Resource implements IResource {
         this.id = self.crypto.randomUUID();
         this.pos = pos;
         this.value = p5.random(maxValue);
-        this.radius = this.value * 0.1;
+        this.radius = this.value * 0.01;
     }
 }
